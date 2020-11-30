@@ -13,7 +13,43 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get_profil"={
+ *              "method"="GET",
+ *              "path"="/admin/profils",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas acces à cette ressource"
+ *                  
+ *           },
+ *           "creer_profil"={
+ *              "method"="POST",
+ *              "path"="/admin/profils",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas acces à cette ressource"
+ *          }
+ *      },
+ *          itemOperations = {
+    *              "show_profil"={
+    *                  "method"="GET",
+    *                  "path"="/admin/profils/{id}"
+    *              },
+    *          "update_profil"={
+    *              "method"="PUT",
+    *              "path"="/admin/profils/{id}"
+    *          },
+    *              "archive_profil"={
+    *                "method" = "DELETE",
+    *                "path"="/admin/profils/{id}"
+    *                 }
+ *          },
+ *      
+ *          
+ *            
+ *      
+ *      
+ *      
+ * )
  * 
  */
 class Profil

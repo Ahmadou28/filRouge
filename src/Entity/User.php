@@ -18,7 +18,40 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
  * @ORM\DiscriminatorMap({"user" = "User", "admin" = "Admin", "formateur" = "Formateur", "apprenant" = "Apprenant","cm"="Cm"})
- * @ApiResource(   
+ * @ApiResource(  
+ *       collectionOperations={
+ *          "get_user"={
+ *              "method"="GET",
+ *              "path"="/admin/users",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas acces à cette ressource"
+ *                  
+ *           },
+ *           "creer_user"={
+ *              "method"="POST",
+ *              "path"="/admin/users",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas acces à cette ressource"
+ *          }
+ *      },
+ *          itemOperations = {
+    *              "show_user"={
+    *                  "method"="GET",
+    *                  "path"="/admin/users/{id}"
+    *              },
+    *          "update_user"={
+    *              "method"="PUT",
+    *              "path"="/admin/users/{id}"
+    *          },
+    *              "archive_user"={
+    *                "method" = "DELETE",
+    *                "path"="/admin/users/{id}"
+    *                 }
+ *          },
+ *      
+ *          
+ *            
+ *      
  * )
  * 
  */
@@ -72,7 +105,7 @@ class User implements UserInterface
     private $isDelete;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="blob")
      */
     private $avatar;
 
@@ -177,6 +210,9 @@ class User implements UserInterface
         $this->password = $password; //$encoder->encodePassword($this,$password);
 
         return $this;
+    }
+    public function __construct(){
+        $this->isDelete = false;
     }
 
     public function getProfil(): ?profil
